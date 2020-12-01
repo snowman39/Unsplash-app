@@ -1,14 +1,14 @@
 //
-//  UnsplashApp.swift
-//  Unsplash
+//  UnsplashPracticeApp.swift
+//  UnsplashPractice
 //
-//  Created by EQ1's Mac on 2020/11/10.
+//  Created by 최유림 on 2020/11/26.
 //
 
 import SwiftUI
 
 @main
-struct UnsplashApp: App {
+struct UnsplashPracticeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
