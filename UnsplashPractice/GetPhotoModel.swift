@@ -18,25 +18,36 @@ struct SearchPhoto: Decodable {
     var results: [Photo]
 }
 
-class getData: ObservableObject {
+class PhotoList: ObservableObject {
     
     @Published var Images : [[Photo]] = []
     @Published var noresults = false
     @Published var isLast: Bool = false
     @Published var isUpdating: Bool = false
     
+    var page = 0
+    var url = ""
+    
+    let key = "oMpA7TXtuvGaVGH-L9GqtkWDlG0rGjhEeHxWu4TRS-Y"
+    let count = 30
+    
     init() {
-        updateData()
+        GetData()
     }
     
-    func updateData() {
-        
+    func GetData(query: String = "") {
+
         self.noresults = false
         
-        let key = "TnT1ZzW9h42-yihbnVRys0xKOOsWvPe3exgLkDYrdos"
-        let count = 30
-        let url = "https://api.unsplash.com/photos/random/?count=\(count)&client_id=\(key)"
-        
+        if query == "" {
+            page = 0
+            url = "https://api.unsplash.com/photos/random/?count=\(count)&client_id=\(key)"
+        } else {
+            page += 1
+            let query = query.replacingOccurrences(of: " ", with: "%20")
+            url = "https://api.unsplash.com/search/photos/?query=\(query)&page=\(page)&per_page=\(count)&client_id=\(key)"
+        }
+
         let session = URLSession(configuration: .default)
         
         session.dataTask(with: URL(string: url)!) { (data, _, err) in
@@ -47,8 +58,13 @@ class getData: ObservableObject {
             
             //JSON Decoding
             do{
-                let json = try JSONDecoder().decode([Photo].self, from: data)
-                
+                let json: [Photo]
+                if query == "" {
+                    json = try JSONDecoder().decode([Photo].self, from: data)
+                } else {
+                    let temp = try JSONDecoder().decode(SearchPhoto.self, from: data)
+                    json = temp.results
+                }
                 
                 //going to create collection view each row has two views
                 for i in stride(from: 0, to: json.count, by: 2){
@@ -68,67 +84,20 @@ class getData: ObservableObject {
 
                     }
                     print("Photos loaded: \(i)")
-                    
                 }
                 
             }
             catch{
-                print(error)
+
+                print("JSON Decoding Error: \(error)")
             }
         }.resume()
     }
     
-    func SearchData(url: String) {
-        let session = URLSession(configuration: .default)
-        
-        session.dataTask(with: URL(string: url)!) { (data, _, err) in
-            if err != nil {
-                print((err)!)
-                return
-            }
-            
-            //JSON Decoding
-            do{
-                let json = try JSONDecoder().decode(SearchPhoto.self, from: data!)
-                
-                print("json.results.count: \(json.results.count)")
-                
-                if json.results.isEmpty {
-                    self.noresults = true
-                } else {
-                    self.noresults = false
-                }
-
-                
-                // create collection view, each row has two views
-                for i in stride(from: 0, to: json.results.count, by: 2){
-                    
-                    var ArrayData: [Photo] = []
-                    
-                    for j in i..<i + 2 {
-                        
-                        // Index out bound
-                        if j < json.results.count {
-                            ArrayData.append(json.results[j])
-                        }
-                    }
-
-                    DispatchQueue.main.async {
-                        self.Images.append(ArrayData)
-                    }
-                }
-            }
-            catch{
-                print(error)
-            }
-        }
-        .resume()
-    }
-    
-    func loadNewData() {
+    func loadNewData(query: String = "") {
         if self.isLast {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.updateData()
+                self.GetData(query: query)
                 self.isUpdating = false
                 self.isLast = false
             }

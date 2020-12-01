@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 struct Home: View {
     @State var expand = false
     @State var search = ""
-    @ObservedObject var RandomImages = getData()
+    @ObservedObject var RandomImages = PhotoList()
     @State var isSearching = false
     @State var location = 0
 
@@ -61,7 +61,7 @@ struct Home: View {
                                 self.RandomImages.Images.removeAll()
                                 self.isSearching = true
                                 pagecount = 1
-                                self.SearchData(page: pagecount)
+                                self.RandomImages.GetData(query: self.search)
                             }) {
                                 Text("Find")
                                     .fontWeight(.bold)
@@ -79,7 +79,7 @@ struct Home: View {
                                 self.isSearching = false
                                 self.RandomImages.Images.removeAll()
                                 // updating home data
-                                self.RandomImages.updateData()
+                                self.RandomImages.GetData()
                             }
                         }) {
                             Image(systemName: "xmark")
@@ -137,7 +137,7 @@ struct Home: View {
                             
                             print("\n" + ">>>>>>>>>>>>>>>>>>>>>>>>at here: \(location)<<<<<<<<<<<<<<<<<<<<<<<<<" + "\n")
                             self.RandomImages.isUpdating = true
-                            self.RandomImages.loadNewData()
+                            self.RandomImages.loadNewData(query: self.search)
                             pageLoaded += 1
                             location = -132
 
@@ -158,7 +158,7 @@ struct Home: View {
                         Button(action: {
                             //Updating Data
                             pagecount += 1
-                            SearchData(page: pagecount)
+                            RandomImages.GetData(query: self.search)
                         }) {
                             Text("More...")
                                 .foregroundColor(.black)
@@ -174,17 +174,6 @@ struct Home: View {
             
         }
     }
-    
-    func SearchData(page: Int) {
-        let key = "TnT1ZzW9h42-yihbnVRys0xKOOsWvPe3exgLkDYrdos"
-        let query = self.search.replacingOccurrences(of: " ", with: "%20")
-        let page = page
-        let per = 30
-        let url = "https://api.unsplash.com/search/photos/?query=\(query)&page=\(page)&per_page=\(per)&client_id=\(key)"
-        
-        self.RandomImages.SearchData(url: url)
-    }
-    
 }
 
 struct ViewOffsetKey: PreferenceKey {
