@@ -132,7 +132,6 @@ struct Home: View {
                         location = -132 * pageLoaded + Int($0) - pageLoaded * 2454
                         print("location: \(location)")
                         
-                        
                         if location > 2350 {
                             self.RandomImages.isLast = true
                             
