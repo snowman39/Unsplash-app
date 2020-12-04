@@ -19,11 +19,11 @@ struct Home: View {
     @State var pagecount = 1
     @State var cnt = 1
     @State private var offset = CGFloat.zero
-    @State var pageLoaded = 0
+    @State var pageLoaded = 1
     
     
     var body: some View {
-        GeometryReader { geometry in
+        //GeometryReader { geometry in
         
             VStack(spacing: 0){
                 HStack{
@@ -128,18 +128,23 @@ struct Home: View {
                        })
                     .onPreferenceChange(ViewOffsetKey.self) {
                         print("offset >> \($0)")
-                        // print(geometry.size.height): 818
-                        location = -132 * pageLoaded + Int($0) - pageLoaded * 2454
-                        print("location: \(location)")
+                        //print("geometry size: \(geometry.size.height)")
+                        if pageLoaded == 1 {
+                            location = Int($0)
+                        } else {
+                            location = Int($0) - (3150 * (pageLoaded - 1))
+                        }
                         
-                        if location > 2350 {
+                        print("location: \(location)")
+
+                        
+                        if location >= 2400 {
                             self.RandomImages.isLast = true
                             
                             print("\n" + ">>>>>>>>>>>>>>>>>>>>>>>>at here: \(location)<<<<<<<<<<<<<<<<<<<<<<<<<" + "\n")
                             self.RandomImages.isUpdating = true
                             self.RandomImages.loadNewData(query: self.search)
                             pageLoaded += 1
-                            location = -132
 
                         }
                         
@@ -172,7 +177,7 @@ struct Home: View {
         .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.all))
         .edgesIgnoringSafeArea(.top)
             
-        }
+       // }
     }
 }
 
