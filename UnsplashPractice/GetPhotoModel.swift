@@ -28,7 +28,7 @@ class PhotoList: ObservableObject {
     var page = 0
     var url = ""
     
-    let key = "oMpA7TXtuvGaVGH-L9GqtkWDlG0rGjhEeHxWu4TRS-Y"
+    let key = "TnT1ZzW9h42-yihbnVRys0xKOOsWvPe3exgLkDYrdos"
     let count = 30
     
     init() {
@@ -77,7 +77,6 @@ class PhotoList: ObservableObject {
                             ArrayData.append(json[j])
                         }
                     }
-                    
                     
                     DispatchQueue.main.async {
                         self.Images.append(ArrayData)

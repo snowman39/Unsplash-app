@@ -15,11 +15,8 @@ struct Home: View {
     @State var isSearching = false
     @State var location = 0
 
-
-    @State var pagecount = 1
-    @State var cnt = 1
     @State private var offset = CGFloat.zero
-    @State var pageLoaded = 1
+    @State var pageCount = 1
     
     
     var body: some View {
@@ -60,7 +57,7 @@ struct Home: View {
                                 // Search Content -> deleting all existing data and displaying search data
                                 self.RandomImages.Images.removeAll()
                                 self.isSearching = true
-                                pagecount = 1
+                                pageCount = 1
                                 self.RandomImages.GetData(query: self.search)
                             }) {
                                 Text("Find")
@@ -129,10 +126,10 @@ struct Home: View {
                     .onPreferenceChange(ViewOffsetKey.self) {
                         print("offset >> \($0)")
                         //print("geometry size: \(geometry.size.height)")
-                        if pageLoaded == 1 {
+                        if pageCount == 1 {
                             location = Int($0)
                         } else {
-                            location = Int($0) - (3150 * (pageLoaded - 1))
+                            location = Int($0) - (3150 * (pageCount - 1))
                         }
                         
                         print("location: \(location)")
@@ -143,8 +140,16 @@ struct Home: View {
                             
                             print("\n" + ">>>>>>>>>>>>>>>>>>>>>>>>at here: \(location)<<<<<<<<<<<<<<<<<<<<<<<<<" + "\n")
                             self.RandomImages.isUpdating = true
-                            self.RandomImages.loadNewData(query: self.search)
-                            pageLoaded += 1
+                            
+                            if isSearching {
+                                RandomImages.loadNewData(query: self.search)
+                                pageCount += 1
+                                
+                                
+                            } else {
+                                self.RandomImages.loadNewData(query: self.search)
+                                pageCount += 1
+                            }
 
                         }
                         
@@ -154,23 +159,6 @@ struct Home: View {
                 if self.RandomImages.isUpdating == true {
                     Spacer()
                     Indicator_small()
-                }
-                
-                // search for more photos
-                if self.isSearching && self.search != "" {
-                    HStack(){
-                        Spacer()
-                        Button(action: {
-                            //Updating Data
-                            pagecount += 1
-                            RandomImages.GetData(query: self.search)
-                        }) {
-                            Text("More...")
-                                .foregroundColor(.black)
-                        }
-                        Spacer()
-                    }
-                    .padding(.top, 25)
                 }
             }
         }
