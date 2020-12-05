@@ -66,6 +66,10 @@ class PhotoList: ObservableObject {
                     json = temp.results
                 }
                 
+                if json.count == 0 {
+                    self.noresults = true
+                }
+                
                 //going to create collection view each row has two views
                 for i in stride(from: 0, to: json.count, by: 2){
                     

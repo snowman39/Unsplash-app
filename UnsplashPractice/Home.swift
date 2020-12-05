@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 struct Home: View {
     @State var expand = false
     @State var search = ""
-    @ObservedObject var RandomImages = PhotoList()
+    @ObservedObject var photoList = PhotoList()
     @State var isSearching = false
     @State var location = 0
 
@@ -53,10 +53,10 @@ struct Home: View {
                         if self.search != "" {
                             Button(action: {
                                 // Search Content -> deleting all existing data and displaying search data
-                                self.RandomImages.Images.removeAll()
+                                self.photoList.Images.removeAll()
                                 self.isSearching = true
                                 pageCount = 1
-                                self.RandomImages.GetData(query: self.search)
+                                self.photoList.GetData(query: self.search)
                             }) {
                                 Text("Find")
                                     .fontWeight(.bold)
@@ -72,9 +72,9 @@ struct Home: View {
                                       
                             if self.isSearching {
                                 self.isSearching = false
-                                self.RandomImages.Images.removeAll()
+                                self.photoList.Images.removeAll()
                                 // updating home data
-                                self.RandomImages.GetData()
+                                self.photoList.GetData()
                             }
                         }) {
                             Image(systemName: "xmark")
@@ -89,19 +89,18 @@ struct Home: View {
                 .padding()
                 .background(Color.white)
             
-                if self.RandomImages.Images.isEmpty {
+                if self.photoList.Images.isEmpty {
                     Spacer()
-                    if self.RandomImages.noresults {
+                    if self.photoList.noresults {
                         Text("No Results Found")
                     } else {
                         Indicator()
                     }
                     Spacer()
-                }
-                else {
+                } else {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack(spacing: 10){
-                        ForEach(self.RandomImages.Images, id: \.self) { i in
+                        ForEach(self.photoList.Images, id: \.self) { i in
                             HStack(spacing: 20){
                                 ForEach(i){ j in
                                     WebImage(url: URL(string: j.urls["thumb"]!))
@@ -121,13 +120,8 @@ struct Home: View {
                        })
                     .onPreferenceChange(ViewOffsetKey.self) {
                         print("offset >> \($0)")
-
-                        if pageCount == 1 {
-                            location = Int($0)
-                        } else {
-                            location = Int($0) - (3150 * (pageCount - 1))
-                        }
                         
+                        location = Int($0) - (3150 * (pageCount - 1))
                         print("location: \(location)")
                         
                         /*
@@ -141,24 +135,16 @@ struct Home: View {
                         */
                         
                         if location >= 2400 {
-                            self.RandomImages.isLast = true
-                            self.RandomImages.isUpdating = true
-                            
-                            if isSearching {
-                                RandomImages.loadNewData(query: self.search)
-                                pageCount += 1
-                                
-                            } else {
-                                self.RandomImages.loadNewData(query: self.search)
-                                pageCount += 1
-                            }
-
+                            self.photoList.isLast = true
+                            self.photoList.isUpdating = true
+                            self.photoList.loadNewData(query: self.search)
+                            pageCount += 1
                         }
                         
                     }
                 }
                     
-                if self.RandomImages.isUpdating == true {
+                if self.photoList.isUpdating == true {
                     Spacer()
                     Indicator_small()
                 }
