@@ -20,8 +20,6 @@ struct Home: View {
     
     
     var body: some View {
-        //GeometryReader { geometry in
-        
             VStack(spacing: 0){
                 HStack{
                     // Title
@@ -101,12 +99,10 @@ struct Home: View {
                     Spacer()
                 }
                 else {
-
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack(spacing: 10){
                         ForEach(self.RandomImages.Images, id: \.self) { i in
                             HStack(spacing: 20){
-                                    
                                 ForEach(i){ j in
                                     WebImage(url: URL(string: j.urls["thumb"]!))
                                         .resizable()
@@ -125,7 +121,7 @@ struct Home: View {
                        })
                     .onPreferenceChange(ViewOffsetKey.self) {
                         print("offset >> \($0)")
-                        //print("geometry size: \(geometry.size.height)")
+
                         if pageCount == 1 {
                             location = Int($0)
                         } else {
@@ -133,18 +129,24 @@ struct Home: View {
                         }
                         
                         print("location: \(location)")
-
+                        
+                        /*
+                        iPhone Xs Max: 2294    >>>> starts at: -132
+                        iPhone SE(2nd gen.): 2489    >>>> starts at: -108
+                        iPod touch(7th gen.): 2588    >>>> starts at: -106
+                        iPhone 8: 2489    >>>> starts at: -108
+                        iPhone 8+: 2420    >>>> starts at: -108
+                        iPhone 12 Pro Max: 2264    >>>> starts at: -135
+                        iPhone 12 mini: 2378    >>>> starts at: -138
+                        */
                         
                         if location >= 2400 {
                             self.RandomImages.isLast = true
-                            
-                            print("\n" + ">>>>>>>>>>>>>>>>>>>>>>>>at here: \(location)<<<<<<<<<<<<<<<<<<<<<<<<<" + "\n")
                             self.RandomImages.isUpdating = true
                             
                             if isSearching {
                                 RandomImages.loadNewData(query: self.search)
                                 pageCount += 1
-                                
                                 
                             } else {
                                 self.RandomImages.loadNewData(query: self.search)
@@ -164,8 +166,6 @@ struct Home: View {
         }
         .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.all))
         .edgesIgnoringSafeArea(.top)
-            
-       // }
     }
 }
 
