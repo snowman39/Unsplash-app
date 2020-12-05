@@ -99,6 +99,8 @@ struct Home : View {
                             Image(systemName: "xmark")
                                 .font(.system(size: 15, weight: .bold))
                                 .foregroundColor(.black)
+                                .hoverEffect(.lift)
+                                .hoverEffect(.highlight)
                         }
                         .padding(.leading, 10)
                     }
@@ -140,6 +142,8 @@ struct Home : View {
                                                     self.detailImage = j.urls["full"]!
                                                 }
                                             }
+                                            .hoverEffect(.lift)
+                                            .hoverEffect(.highlight)
                                             .contextMenu{
                                                 // Save Button
                                                 Button(action : {
