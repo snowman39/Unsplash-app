@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		B8777C3F2573A12500F6BFD9 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8777C3E2573A12500F6BFD9 /* Home.swift */; };
+		B877AFA5257D0513002F6E43 /* UnsplashApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4C327256EACFA00BDF884 /* UnsplashApp.swift */; };
 		B8A14221256FDEA7006035C0 /* GetPhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A14220256FDEA7006035C0 /* GetPhotoModel.swift */; };
 		B8A14244257151D4006035C0 /* PhotoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A14243257151D4006035C0 /* PhotoDetailView.swift */; };
-		B8C4C328256EACFA00BDF884 /* UnsplashPracticeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4C327256EACFA00BDF884 /* UnsplashPracticeApp.swift */; };
 		B8C4C32A256EACFA00BDF884 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4C329256EACFA00BDF884 /* ContentView.swift */; };
 		B8C4C32C256EACFB00BDF884 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8C4C32B256EACFB00BDF884 /* Assets.xcassets */; };
 		B8C4C32F256EACFB00BDF884 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8C4C32E256EACFB00BDF884 /* Preview Assets.xcassets */; };
@@ -21,8 +21,8 @@
 		B8777C3E2573A12500F6BFD9 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		B8A14220256FDEA7006035C0 /* GetPhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPhotoModel.swift; sourceTree = "<group>"; };
 		B8A14243257151D4006035C0 /* PhotoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailView.swift; sourceTree = "<group>"; };
-		B8C4C324256EACFA00BDF884 /* UnsplashPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnsplashPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B8C4C327256EACFA00BDF884 /* UnsplashPracticeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashPracticeApp.swift; sourceTree = "<group>"; };
+		B8C4C324256EACFA00BDF884 /* Unsplash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unsplash.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8C4C327256EACFA00BDF884 /* UnsplashApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashApp.swift; sourceTree = "<group>"; };
 		B8C4C329256EACFA00BDF884 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B8C4C32B256EACFB00BDF884 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8C4C32E256EACFB00BDF884 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -44,7 +44,7 @@
 		B8C4C31B256EACFA00BDF884 = {
 			isa = PBXGroup;
 			children = (
-				B8C4C326256EACFA00BDF884 /* UnsplashPractice */,
+				B8C4C326256EACFA00BDF884 /* Unsplash */,
 				B8C4C325256EACFA00BDF884 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,15 +52,15 @@
 		B8C4C325256EACFA00BDF884 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B8C4C324256EACFA00BDF884 /* UnsplashPractice.app */,
+				B8C4C324256EACFA00BDF884 /* Unsplash.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B8C4C326256EACFA00BDF884 /* UnsplashPractice */ = {
+		B8C4C326256EACFA00BDF884 /* Unsplash */ = {
 			isa = PBXGroup;
 			children = (
-				B8C4C327256EACFA00BDF884 /* UnsplashPracticeApp.swift */,
+				B8C4C327256EACFA00BDF884 /* UnsplashApp.swift */,
 				B8C4C329256EACFA00BDF884 /* ContentView.swift */,
 				B8777C3E2573A12500F6BFD9 /* Home.swift */,
 				B8A14243257151D4006035C0 /* PhotoDetailView.swift */,
@@ -69,7 +69,7 @@
 				B8C4C330256EACFB00BDF884 /* Info.plist */,
 				B8C4C32D256EACFB00BDF884 /* Preview Content */,
 			);
-			path = UnsplashPractice;
+			path = Unsplash;
 			sourceTree = "<group>";
 		};
 		B8C4C32D256EACFB00BDF884 /* Preview Content */ = {
@@ -83,9 +83,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B8C4C323256EACFA00BDF884 /* UnsplashPractice */ = {
+		B8C4C323256EACFA00BDF884 /* Unsplash */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B8C4C333256EACFB00BDF884 /* Build configuration list for PBXNativeTarget "UnsplashPractice" */;
+			buildConfigurationList = B8C4C333256EACFB00BDF884 /* Build configuration list for PBXNativeTarget "Unsplash" */;
 			buildPhases = (
 				B8C4C320256EACFA00BDF884 /* Sources */,
 				B8C4C321256EACFA00BDF884 /* Frameworks */,
@@ -95,12 +95,12 @@
 			);
 			dependencies = (
 			);
-			name = UnsplashPractice;
+			name = Unsplash;
 			packageProductDependencies = (
 				B8C4C339256EB1C200BDF884 /* SDWebImageSwiftUI */,
 			);
 			productName = UnsplashPractice;
-			productReference = B8C4C324256EACFA00BDF884 /* UnsplashPractice.app */;
+			productReference = B8C4C324256EACFA00BDF884 /* Unsplash.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -117,7 +117,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B8C4C31F256EACFA00BDF884 /* Build configuration list for PBXProject "UnsplashPractice" */;
+			buildConfigurationList = B8C4C31F256EACFA00BDF884 /* Build configuration list for PBXProject "Unsplash" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -133,7 +133,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B8C4C323256EACFA00BDF884 /* UnsplashPractice */,
+				B8C4C323256EACFA00BDF884 /* Unsplash */,
 			);
 		};
 /* End PBXProject section */
@@ -155,11 +155,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B877AFA5257D0513002F6E43 /* UnsplashApp.swift in Sources */,
 				B8A14244257151D4006035C0 /* PhotoDetailView.swift in Sources */,
 				B8C4C32A256EACFA00BDF884 /* ContentView.swift in Sources */,
 				B8777C3F2573A12500F6BFD9 /* Home.swift in Sources */,
 				B8A14221256FDEA7006035C0 /* GetPhotoModel.swift in Sources */,
-				B8C4C328256EACFA00BDF884 /* UnsplashPracticeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,16 +288,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"UnsplashPractice/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Unsplash/Preview Content\"";
 				DEVELOPMENT_TEAM = H3J2ZWWZQV;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = UnsplashPractice/Info.plist;
+				INFOPLIST_FILE = Unsplash/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.peng-u-0807.UnsplashPractice";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.peng-u-0807.Unsplash";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -310,16 +310,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"UnsplashPractice/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Unsplash/Preview Content\"";
 				DEVELOPMENT_TEAM = H3J2ZWWZQV;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = UnsplashPractice/Info.plist;
+				INFOPLIST_FILE = Unsplash/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.peng-u-0807.UnsplashPractice";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.peng-u-0807.Unsplash";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -329,7 +329,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B8C4C31F256EACFA00BDF884 /* Build configuration list for PBXProject "UnsplashPractice" */ = {
+		B8C4C31F256EACFA00BDF884 /* Build configuration list for PBXProject "Unsplash" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B8C4C331256EACFB00BDF884 /* Debug */,
@@ -338,7 +338,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B8C4C333256EACFB00BDF884 /* Build configuration list for PBXNativeTarget "UnsplashPractice" */ = {
+		B8C4C333256EACFB00BDF884 /* Build configuration list for PBXNativeTarget "Unsplash" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B8C4C334256EACFB00BDF884 /* Debug */,

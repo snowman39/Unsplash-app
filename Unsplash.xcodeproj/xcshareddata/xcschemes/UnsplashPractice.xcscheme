@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B8C4C323256EACFA00BDF884"
-               BuildableName = "UnsplashPractice.app"
-               BlueprintName = "UnsplashPractice"
-               ReferencedContainer = "container:UnsplashPractice.xcodeproj">
+               BuildableName = "Unsplash.app"
+               BlueprintName = "Unsplash"
+               ReferencedContainer = "container:Unsplash.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B8C4C323256EACFA00BDF884"
-            BuildableName = "UnsplashPractice.app"
-            BlueprintName = "UnsplashPractice"
-            ReferencedContainer = "container:UnsplashPractice.xcodeproj">
+            BuildableName = "Unsplash.app"
+            BlueprintName = "Unsplash"
+            ReferencedContainer = "container:Unsplash.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B8C4C323256EACFA00BDF884"
-            BuildableName = "UnsplashPractice.app"
-            BlueprintName = "UnsplashPractice"
-            ReferencedContainer = "container:UnsplashPractice.xcodeproj">
+            BuildableName = "Unsplash.app"
+            BlueprintName = "Unsplash"
+            ReferencedContainer = "container:Unsplash.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
