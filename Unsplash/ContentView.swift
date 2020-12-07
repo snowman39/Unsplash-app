@@ -23,13 +23,15 @@ struct ContentView_Previews: PreviewProvider {
 
 struct Home : View {
     
-    @ObservedObject var randomImages = UnsplashData()
+    @ObservedObject var photoList = UnsplashData()
     @State var expand = false;
     @State var search = "";
-    @State var page = 1;
     @State var isSearching = false;
     @State var detail = false;
     @State var detailImage = "";
+    @State var location = 0
+    @State private var offset = CGFloat.zero
+    @State var pageCount = 1
     
     var body: some View {
         
@@ -66,13 +68,11 @@ struct Home : View {
                         // Displaying search button when search txt is not empty ...
                         if self.search != "" {
                             Button(action: {
-                                // Search Content...
-                                // deleting all existing data and displating search data...
-                                
-                                self.randomImages.photoArray.removeAll()
+                                // Search Content -> deleting all existing data and displaying search data
+                                self.photoList.Images.removeAll()
                                 self.isSearching = true
-                                self.page = 1
-                                self.SearchData()
+                                pageCount = 1
+                                self.photoList.GetData(query: self.search)
                                 
                             }) {
                                 Text("Find")
@@ -90,9 +90,9 @@ struct Home : View {
                             if self.isSearching {
                                 
                                 self.isSearching = false
-                                self.randomImages.photoArray.removeAll()
+                                self.photoList.Images.removeAll()
                                 // updating home data...
-                                self.randomImages.loadData()
+                                self.photoList.GetData()
 
                             }
                         }) {
@@ -107,13 +107,13 @@ struct Home : View {
                 .padding()
                 .background(Color.white)
                 
-                if self.randomImages.photoArray.isEmpty {
+                if self.photoList.Images.isEmpty {
 
                     // Data is Loading...
                     // Or no data...
                     Spacer()
                     
-                    if self.randomImages.noresults {
+                    if self.photoList.noresults {
                         Text("No Results Found ")
                     }
                     else {
@@ -123,15 +123,13 @@ struct Home : View {
                 }
                 else {
                     ScrollView(.vertical, showsIndicators: false) {
-                        // Collection View...
-                        VStack(spacing: 15) {
-                            ForEach(self.randomImages.photoArray, id: \.self) {i in
-                                HStack(spacing : 20) {
-                                    ForEach(i) { j in
-                                        AnimatedImage(url: URL(string: j.urls["thumb"]!))
+                        LazyVStack(spacing: 10){
+                            ForEach(self.photoList.Images, id: \.self) { i in
+                                HStack(spacing: 20){
+                                    ForEach(i){ j in
+                                        WebImage(url: URL(string: j.urls["thumb"]!))
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
-                                            // padding on both sides 30 and spacing 20 = 50
                                             .frame(width: (UIScreen.main.bounds.width - 50) / 2, height: 200)
                                             .cornerRadius(15)
                                             .onTapGesture {
@@ -163,53 +161,49 @@ struct Home : View {
                                     }
                                 }
                             }
-                            
-                            
-                            // Load More Button
-                            
-                            if !self.randomImages.photoArray.isEmpty {
-                                if self.isSearching && self.search != "" {
-                                    HStack {
-                                        Text("Page \(self.page)")
-                                        Spacer()
-                                        
-                                        Button(action: {
-                                            // Updating Data...
-                                            self.randomImages.photoArray.removeAll()
-                                            self.page += 1
-                                            self.SearchData()
-                                        }) {
-                                            Text("Next")
-                                                .fontWeight(.bold)
-                                                .foregroundColor(.black)
-                                        }
-                                    }
-                                    .padding(.horizontal, 25)
-                                }
-                                else {
-                                    HStack {
-                                        Spacer()
-                                        Button(action: {
-                                            // Updating Data...
-                                            self.randomImages.photoArray.removeAll()
-                                            self.randomImages.loadData()
-                                        }) {
-                                            Text("Next")
-                                                .fontWeight(.bold)
-                                                .foregroundColor(.black)
-                                        }
-                                    }
-                                    .padding(.horizontal, 25)
-                                }
-                            }
+                                
                         }
-                        .padding(.top)
+                        .padding(.top)  // for VStack
+                        .background(GeometryReader {
+                            Color.clear.preference(key: ViewOffsetKey.self,
+                                value: -$0.frame(in: .named("scroll")).origin.y)
+                           })
+                        .onPreferenceChange(ViewOffsetKey.self) {
+                            print("offset >> \($0)")
+                            
+                            location = Int($0) - (3150 * (pageCount - 1))
+                            print("location: \(location)")
+                            
+                            /*
+                            iPhone Xs Max: 2294    >>>> starts at: -132
+                            iPhone SE(2nd gen.): 2489    >>>> starts at: -108
+                            iPod touch(7th gen.): 2588    >>>> starts at: -106
+                            iPhone 8: 2489    >>>> starts at: -108
+                            iPhone 8+: 2420    >>>> starts at: -108
+                            iPhone 12 Pro Max: 2264    >>>> starts at: -135
+                            iPhone 12 mini: 2378    >>>> starts at: -138
+                            */
+                            
+                            if location >= 2400 {
+                                self.photoList.isLast = true
+                                self.photoList.isUpdating = true
+                                self.photoList.loadNewData(query: self.search)
+                                pageCount += 1
+                            }
+                            
+                        }
+                    }
+                        
+                    if self.photoList.isUpdating == true {
+                        Spacer()
+                        Indicator_small()
                     }
                 }
             }
             .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.all))
             .edgesIgnoringSafeArea(.top)
-        } else {
+        }
+        else {
             VStack(spacing: 0) {
                 
                 HStack {
@@ -242,20 +236,9 @@ struct Home : View {
             .edgesIgnoringSafeArea(.top)
         }
     }
-    
-    func SearchData() {
-        let key = "oMpA7TXtuvGaVGH-L9GqtkWDlG0rGjhEeHxWu4TRS-Y"
-        // replacing spaces into %20 for query...
-        let query = self.search.replacingOccurrences(of: " ", with: "%20")
-        // updating page every time...
-        let url = "https://api.unsplash.com/search/photos/?page=\(self.page)&query=\(query)&client_id=\(key)"
-        
-        self.randomImages.searchData(url: url)
-    }
 }
 
-struct Indicator : UIViewRepresentable {
-    
+struct Indicator: UIViewRepresentable {
     func makeUIView(context: Context) -> UIActivityIndicatorView {
         
         let view = UIActivityIndicatorView(style: .large)
@@ -265,5 +248,26 @@ struct Indicator : UIViewRepresentable {
     
     func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {
         
+    }
+}
+
+struct Indicator_small: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIActivityIndicatorView {
+        
+        let view = UIActivityIndicatorView(style: .medium)
+        view.startAnimating()
+        return view
+    }
+    
+    func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {
+        
+    }
+}
+
+struct ViewOffsetKey: PreferenceKey {
+    typealias Value = CGFloat
+    static var defaultValue = CGFloat.zero
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value += nextValue()
     }
 }

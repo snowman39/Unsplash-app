@@ -18,126 +18,92 @@ struct SearchPhoto: Decodable, Hashable {
 }
 
 class UnsplashData: ObservableObject {
-    @Published var photoArray: [[Photo]] = []
+    @Published var Images : [[Photo]] = []
     @Published var noresults = false
+    @Published var isLast: Bool = false
+    @Published var isUpdating: Bool = false
+    
+    var page = 0
+    var url = ""
+    
+    let key = "TnT1ZzW9h42-yihbnVRys0xKOOsWvPe3exgLkDYrdos"
+    let count = 30
     
     init() {
-        loadData()
+        GetData()
     }
     
-    func loadData() {
-        
+    func GetData(query: String = "") {
+
         self.noresults = false
         
-        let key = "oMpA7TXtuvGaVGH-L9GqtkWDlG0rGjhEeHxWu4TRS-Y"
-        let url = "https://api.unsplash.com/photos/random/?count=30&client_id=\(key)"
-        
-        let session = URLSession(configuration: .default)
+        if query == "" {
+            page = 0
+            url = "https://api.unsplash.com/photos/random/?count=\(count)&client_id=\(key)"
+        } else {
+            page += 1
+            let query = query.replacingOccurrences(of: " ", with: "%20")
+            url = "https://api.unsplash.com/search/photos/?query=\(query)&page=\(page)&per_page=\(count)&client_id=\(key)"
+        }
 
-        session.dataTask(with: URL(string: url)!) { (data, _, error) in
-            
-            if error != nil {
-                
-                print((error?.localizedDescription)!)
+        let session = URLSession(configuration: .default)
+        
+        session.dataTask(with: URL(string: url)!) { (data, _, err) in
+            guard let data = data else {
+                print("URLSession data error: ", err ?? "nil")
                 return
             }
             
-            // JSON decoding...
-            
-//            guard let data = data else {
-//                print("URLSession DataTask error:", error ?? nil)
-//                return
-//            }
-            do {
-                let json = try JSONDecoder().decode([Photo].self, from: data!)
+            //JSON Decoding
+            do{
+                let json: [Photo]
+                if query == "" {
+                    json = try JSONDecoder().decode([Photo].self, from: data)
+                } else {
+                    let temp = try JSONDecoder().decode(SearchPhoto.self, from: data)
+                    json = temp.results
+                }
                 
-                // going to create collection view each row has two views...
+                if json.count == 0 {
+                    self.noresults = true
+                }
                 
-                for i in stride(from: 0, to: json.count, by: 2) {
+                //going to create collection view each row has two views
+                for i in stride(from: 0, to: json.count, by: 2){
                     
-                    var ArrayData : [Photo] = []
+                    var ArrayData: [Photo] = []
                     
-                    for j in i..<i+2 {
-                        
-                        // Index out bound ...
-                        
+                    for j in i..<i + 2 {
+                        // Index out bound...
                         if j < json.count {
-                            
                             ArrayData.append(json[j])
                         }
                     }
                     
                     DispatchQueue.main.async {
-                        self.photoArray.append(ArrayData)
+                        self.Images.append(ArrayData)
+
                     }
+                    print("Photos loaded: \(i)")
                 }
                 
-//                for photo in json {
-//                    DispatchQueue.main.async {
-//                        self.photoArray.append(photo)
-//                    }
-//                }
-            } catch {
-                print("catch : ", error.localizedDescription)
+            }
+            catch{
+
+                print("JSON Decoding Error: \(error)")
             }
         }.resume()
     }
     
-    func searchData(url: String) {
-         
-        let session = URLSession(configuration: .default)
-
-        session.dataTask(with: URL(string: url)!) { (data, _, error) in
-            
-            if error != nil {
-                
-                print((error?.localizedDescription)!)
-                return
+    func loadNewData(query: String = "") {
+        if self.isLast {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.GetData(query: query)
+                self.isUpdating = false
+                self.isLast = false
             }
             
-            // JSON decoding...
-            
-            do {
-                let json = try JSONDecoder().decode(SearchPhoto.self, from: data!)
-                
-                
-                if json.results.isEmpty {
-                    self.noresults = true
-                }
-                else {
-                    self.noresults = false
-                }
-                // going to create collection view each row has two views...
-                
-                
-                for i in stride(from: 0, to: json.results.count, by: 2) {
-                    
-                    var ArrayData : [Photo] = []
-                    
-                    for j in i..<i+2 {
-                        
-                        // Index out bound ...
-                        
-                        if j < json.results.count {
-                            
-                            ArrayData.append(json.results[j])
-                        }
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.photoArray.append(ArrayData)
-                    }
-                }
-                
-//                for photo in json {
-//                    DispatchQueue.main.async {
-//                        self.photoArray.append(photo)
-//                    }
-//                }
-            } catch {
-                print("catch : ", error.localizedDescription)
-            }
-        }.resume()
+        }
+        
     }
 }
-
