@@ -179,8 +179,6 @@ struct Home : View {
                             iPod touch(7th gen.): 2588    >>>> starts at: -106
                             iPhone 12 Pro Max: 2264    >>>> starts at: -135
                             iPhone 12 mini: 2378    >>>> starts at: -138
-                            iPhone 8: 2489    >>>> starts at: -108
-                            iPhone 8+: 2420    >>>> starts at: -108
                             */
                             
                             if location >= 2420 {
