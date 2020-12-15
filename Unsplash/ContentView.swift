@@ -9,7 +9,6 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ContentView: View {
-    
     var body: some View {
         Home()
     }
@@ -178,13 +177,13 @@ struct Home : View {
                             iPhone Xs Max: 2294    >>>> starts at: -132
                             iPhone SE(2nd gen.): 2489    >>>> starts at: -108
                             iPod touch(7th gen.): 2588    >>>> starts at: -106
-                            iPhone 8: 2489    >>>> starts at: -108
-                            iPhone 8+: 2420    >>>> starts at: -108
                             iPhone 12 Pro Max: 2264    >>>> starts at: -135
                             iPhone 12 mini: 2378    >>>> starts at: -138
+                            iPhone 8: 2489    >>>> starts at: -108
+                            iPhone 8+: 2420    >>>> starts at: -108
                             */
                             
-                            if location >= 2400 {
+                            if location >= 2420 {
                                 self.photoList.isLast = true
                                 self.photoList.isUpdating = true
                                 self.photoList.loadNewData(query: self.search)
@@ -198,6 +197,7 @@ struct Home : View {
                         Spacer()
                         Indicator_small()
                     }
+                    
                 }
             }
             .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.all))

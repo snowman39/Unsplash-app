@@ -9,7 +9,6 @@ import Foundation
 
 struct Photo: Identifiable, Decodable, Hashable {
     var id: String
-    var alt_description: String?
     var urls: [String : String]
 }
 
@@ -97,12 +96,11 @@ class UnsplashData: ObservableObject {
     
     func loadNewData(query: String = "") {
         if self.isLast {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
                 self.GetData(query: query)
                 self.isUpdating = false
                 self.isLast = false
-            }
-            
+            })
         }
         
     }
